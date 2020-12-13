@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Card from "./Card";
 import CardDetail from "./CardDetail";
+import Navbar from "./Navbar";
 import "./App.css";
 
 class App extends Component {
@@ -180,8 +181,12 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <Navbar />
                 <Card value={this.state.heroes[0]} />
                 <CardDetail value={this.state.heroes[0]} />
+                {/* {this.state.heroes.map((hero, index) => {
+                    return <Card key={index} value={hero} />;
+                })} */}
             </div>
         );
     }
