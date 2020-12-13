@@ -1,0 +1,13 @@
+.Card {
+    width: fit-content;
+    height: fit-content;
+    border: 2px;
+    border-style: solid;
+    padding: 10px;
+    margin: 10px;
+}
+
+Image {
+    width: 256px;
+    height: 144px;
+}
