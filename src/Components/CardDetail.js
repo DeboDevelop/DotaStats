@@ -24,11 +24,12 @@ class CardDetail extends Component {
                 <span>Attack Type: {this.props.value.attack_type}</span>
                 <br />
                 <span>
-                    Roles:
+                    Roles:{" "}
                     {this.props.value.roles.map((role, index) => {
-                        return <p key={index}>{role},</p>;
+                        return <span key={index}>{role}, </span>;
                     })}
                 </span>
+                <br />
                 <span>Base Health: {this.props.value.base_health}</span>
                 <br />
                 <span>Base Health Regen: {this.props.value.base_health_regen}</span>
