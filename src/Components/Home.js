@@ -23,17 +23,20 @@ class Home extends Component {
                 console.log(error);
             });
     }
+    searchHero = value => {
+        //console.log("From Home Component: " + value);
+        const searched_hero = this.state.heroes.filter(hero => {
+            return hero.localized_name.startsWith(value);
+        });
+        this.setState({ ...this.state, current_heroes: [...searched_hero] });
+    };
     render() {
         return (
             <div className="Home">
-                <Navbar />
-                {this.state.heroes.map(hero => {
+                <Navbar changeHeroState={this.searchHero} />
+                {this.state.current_heroes.map(hero => {
                     return (
-                        <Link
-                            to={{
-                                pathname: `/${hero.id}`,
-                                value: hero,
-                            }}>
+                        <Link to={`/${hero.id}`}>
                             <Card key={hero.id} value={hero} />
                         </Link>
                     );

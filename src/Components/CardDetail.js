@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { Component } from "react";
 import "./CardDetail.css";
 
@@ -5,7 +6,8 @@ class CardDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            icon_url: "https://api.opendota.com" + props.location.value.img,
+            hero: {},
+            img_url: "",
             attribute: {
                 agi: "Agility",
                 str: "Strength",
@@ -13,67 +15,62 @@ class CardDetail extends Component {
             },
         };
     }
+    componentWillMount() {
+        axios
+            .get("https://api.opendota.com/api/heroStats")
+            .then(response => {
+                for (let index = 0; index < response.data.length; index++) {
+                    if (response.data[index].id === +this.props.match.params.id) {
+                        this.setState({
+                            ...this.state,
+                            hero: { ...response.data[index] },
+                            img_url: "https://api.opendota.com" + response.data[index].img,
+                        });
+                    }
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 
     render() {
-        console.log(this.props);
+        console.log(this.state.hero.roles);
         return (
             <div className="Card">
-                <img src={this.state.icon_url} alt={this.props.location.value.localized_name} className="Image"></img>
-                <h3>{this.props.location.value.localized_name}</h3>
-                <span>Primary Attribute: {this.state.attribute[this.props.location.value.primary_attr]}</span>
-                <br />
-                <span>Attack Type: {this.props.location.value.attack_type}</span>
-                <br />
-                <span>
+                <img src={this.state.img_url} alt={this.state.hero.localized_name} className="Image"></img>
+                <h3>{this.state.hero.localized_name}</h3>
+                <p>Primary Attribute: {this.state.attribute[this.state.hero.primary_attr]}</p>
+                <p>Attack Type: {this.state.hero.attack_type}</p>
+                {/* <p>
                     Roles:{" "}
-                    {this.props.location.value.roles.map((role, index) => {
-                        return <span key={index}>{role}, </span>;
+                    {this.state.hero.roles.map((role, index) => {
+                        return <p key={index}>{role}, </p>;
                     })}
-                </span>
-                <br />
-                <span>Base Health: {this.props.location.value.base_health}</span>
-                <br />
-                <span>Base Health Regen: {this.props.location.value.base_health_regen}</span>
-                <br />
-                <span>Base Mana: {this.props.location.value.base_mana}</span>
-                <br />
-                <span>Base Mana Regen: {this.props.location.value.base_mana}</span>
-                <br />
-                <span>Base Armor: {this.props.location.value.base_armor}</span>
-                <br />
-                <span>
-                    Base Attack: {this.props.location.value.base_attack_min} -{" "}
-                    {this.props.location.value.base_attack_max}
-                </span>
-                <br />
-                <span>Base Strength: {this.props.location.value.base_str}</span>
-                <br />
-                <span>Base Strength Gain: {this.props.location.value.str_gain}</span>
-                <br />
-                <span>Base Agility: {this.props.location.value.base_agi}</span>
-                <br />
-                <span>Base Agility Gain: {this.props.location.value.agi_gain}</span>
-                <br />
-                <span>Base Intelligence: {this.props.location.value.base_int}</span>
-                <br />
-                <span>Base Intelligence Gain: {this.props.location.value.int_gain}</span>
-                <br />
-                <span>Attack Range: {this.props.location.value.attack_range}</span>
-                <br />
-                {this.props.location.value.projectile_speed !== 0 ? (
-                    <span>
-                        Projectile Speed: {this.props.location.value.projectile_speed}
-                        <br />
-                    </span>
+                </p> */}
+                <p>Base Health: {this.state.hero.base_health}</p>
+                <p>Base Health Regen: {this.state.hero.base_health_regen}</p>
+                <p>Base Mana: {this.state.hero.base_mana}</p>
+                <p>Base Mana Regen: {this.state.hero.base_mana}</p>
+                <p>Base Armor: {this.state.hero.base_armor}</p>
+                <p>
+                    Base Attack: {this.state.hero.base_attack_min} - {this.state.hero.base_attack_max}
+                </p>
+                <p>Base Strength: {this.state.hero.base_str}</p>
+                <p>Base Strength Gain: {this.state.hero.str_gain}</p>
+                <p>Base Agility: {this.state.hero.base_agi}</p>
+                <p>Base Agility Gain: {this.state.hero.agi_gain}</p>
+                <p>Base Intelligence: {this.state.hero.base_int}</p>
+                <p>Base Intelligence Gain: {this.state.hero.int_gain}</p>
+                <p>Attack Range: {this.state.hero.attack_range}</p>
+                {this.state.hero.projectile_speed !== 0 ? (
+                    <p>Projectile Speed: {this.state.hero.projectile_speed}</p>
                 ) : (
                     ""
                 )}
-                <span>Attack Rate: {this.props.location.value.attack_rate}</span>
-                <br />
-                <span>Move Speed: {this.props.location.value.move_speed}</span>
-                <br />
-                <span>Turn Rate: {this.props.location.value.turn_rate}</span>
-                <br />
+                <p>Attack Rate: {this.state.hero.attack_rate}</p>
+                <p>Move Speed: {this.state.hero.move_speed}</p>
+                <p>Turn Rate: {this.state.hero.turn_rate}</p>
             </div>
         );
     }
