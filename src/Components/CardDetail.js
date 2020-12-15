@@ -42,12 +42,16 @@ class CardDetail extends Component {
                 <h3>{this.state.hero.localized_name}</h3>
                 <p>Primary Attribute: {this.state.attribute[this.state.hero.primary_attr]}</p>
                 <p>Attack Type: {this.state.hero.attack_type}</p>
-                {/* <p>
-                    Roles:{" "}
-                    {this.state.hero.roles.map((role, index) => {
-                        return <p key={index}>{role}, </p>;
-                    })}
-                </p> */}
+                {this.state.hero.roles !== undefined ? (
+                    <p>
+                        Roles:{" "}
+                        {this.state.hero.roles.map((role, index) => {
+                            return <p key={index}>{role}, </p>;
+                        })}
+                    </p>
+                ) : (
+                    " "
+                )}
                 <p>Base Health: {this.state.hero.base_health}</p>
                 <p>Base Health Regen: {this.state.hero.base_health_regen}</p>
                 <p>Base Mana: {this.state.hero.base_mana}</p>
