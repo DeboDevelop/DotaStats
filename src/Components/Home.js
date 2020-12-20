@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Card from "./Card";
-import "./Home.css";
 import Navbar from "./Navbar";
 
 class Home extends Component {
@@ -32,15 +31,21 @@ class Home extends Component {
     };
     render() {
         return (
-            <div className="Home">
+            <div>
                 <Navbar changeHeroState={this.searchHero} />
-                {this.state.current_heroes.map(hero => {
-                    return (
-                        <Link to={`/${hero.id}`}>
-                            <Card key={hero.id} value={hero} />
-                        </Link>
-                    );
-                })}
+                <div className="mx-auto">
+                    <div className="container">
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+                            {this.state.current_heroes.map(hero => {
+                                return (
+                                    <Link to={`/${hero.id}`}>
+                                        <Card key={hero.id} value={hero} />
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
